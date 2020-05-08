@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "name": "Sunset",
+  "description": "Emails the Sunset time at the location where this Story runs.",
+  "guid": "cff508cea4c67f926ddaf5980fc6f603",
+  "exported_at": "2020-04-24T09:05:02Z",
+  "agents": [
+    {
+      "type": "Agents::EmailAgent",
+      "name": "Email",
+      "disabled": false,
+      "guid": "804c98240a2c7c969e445263ae1061f6",
+      "options": {
+        "recipients": "alice@example.com",
+        "subject": "Sunset",
+        "body": "Sunset in {{ .location.body.city }}, {{ .location.body.country }} is at {{ sunset.body.results.sunset }}."
+      },
+      "keep_events_for": 604800
+    },
+    {
+      "type": "Agents::HTTPRequestAgent",
+      "name": "Location",
+      "disabled": false,
+      "guid": "f7b53c1a4a00b76b6d68d4bdf03de6ec",
+      "options": {
+        "url": "http://free.ipwhois.io/json/",
+        "method": "get"
+      },
+      "schedule": "never",
+      "keep_events_for": 604800
+    },
+    {
+      "type": "Agents::HTTPRequestAgent",
+      "name": "Sunset",
+      "disabled": false,
+      "guid": "04cc132deb921be6ae58d03586d3bbad",
+      "options": {
+        "url": "https://api.sunrise-sunset.org/json?lat={{ .location.body.latitude }}&lng={{ .location.body.longitude }}",
+        "method": "get"
+      },
+      "schedule": "never",
+      "keep_events_for": 604800
+    }
+  ],
+  "links": [
+    {
+      "source": 1,
+      "receiver": 2
+    },
+    {
+      "source": 2,
+      "receiver": 0
+    }
+  ],
+  "control_links": [
+
+  ],
+  "diagram_layout": "{\"f7b53c1a4a00b76b6d68d4bdf03de6ec\":[105,-225],\"04cc132deb921be6ae58d03586d3bbad\":[105,-120],\"804c98240a2c7c969e445263ae1061f6\":[105,-30]}",
+  "send_to_story_enabled": false,
+  "entry_agent_guid": null,
+  "exit_agent_guid": null,
+  "send_to_stories": [
+
+  ]
+}
